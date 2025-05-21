@@ -3,6 +3,7 @@
 #include "Base.h"
 #include "Filter.h"
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 
 int main() {
@@ -207,6 +208,26 @@ int main() {
                 } std::cout << '\n';
             } catch (const char* error_message) {
                 std::cout << error_message << '\n';
+            }
+        } else if (command == "save") {
+            std::ofstream out;
+            out.open("polynomials.txt");
+            std::vector<std::string> data_base = base.get_base();
+            for (int i = 0; i < data_base.size(); i++) {
+                out << data_base[i] << '\n';
+            }
+            out.close();
+        } else if (command == "load") {
+            std::ifstream in;
+            in.open("polynomials.txt");
+
+            std::string polynomial_str;
+            while (std::getline(in, polynomial_str)) {
+                try {
+                    base.add(polynomial_str);
+                } catch (std::string error_message) {
+                    continue;
+                }
             }
         } else {
             std::cout << "incorrect command, use help\n";
