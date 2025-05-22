@@ -18,8 +18,18 @@ List<T>::Iterator List<T>::end() {
     return Iterator(nullptr);
 }
 
+template<typename T>
+List<T>::Iterator List<T>::rbegin() {
+    return Iterator(last_);
+}
+
+template<typename T>
+List<T>::Iterator List<T>::rend() {
+    return Iterator(nullptr);
+}
+
 template <typename T>
-void List<T>::delete_list() {
+void List<T>::clear() {
     while (head_ != nullptr) {
         this->pop_front();
     }

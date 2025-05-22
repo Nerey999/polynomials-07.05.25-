@@ -11,7 +11,9 @@ public:
     class Iterator;
     Iterator begin();
     Iterator end();
-    
+    Iterator rbegin();
+    Iterator rend();
+
     class Iterator {
      public:
         Iterator() noexcept :
@@ -49,7 +51,7 @@ public:
         const Node* currentNode;
     };
 
-    void delete_list();
+    void clear();
     void push_back(T);
     void pop_front();
     void MergeSort();
