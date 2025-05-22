@@ -16,7 +16,7 @@ void List<T>::delete_list() {
 }
 
 template <typename T>
-void List<T>::add(T data) {
+void List<T>::push_back(T data) {
     Node* now = new Node(data);
     size_++;
     if (head_ == nullptr) {
@@ -100,18 +100,22 @@ void List<T>::pop_front() {
 }
 
 
-// int main() {
-//     List<int> l;
-//     l.add(1);
-//     l.add(2);
-//     l.add(3);
-//     l.add(3);
-//     l.add(4);
-//     l.add(5);
-//     l.add(7);
-//     l.add(7);
-//     l.add(9);
-//     l.MergeSort();
-//     1 + 1;
-//     return 0;
-// }
+int main() {
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    list.push_back(3);
+    list.push_back(4);
+    list.push_back(5);
+    list.push_back(7);
+    list.push_back(7);
+    list.push_back(9);
+    for (List<int>::Iterator iterator = list.begin();
+            iterator != list.end(); iterator++) {
+        std::cout << *iterator << ' ';
+    }
+    list.MergeSort();
+    1 + 1;
+    return 0;
+}

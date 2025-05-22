@@ -1,22 +1,71 @@
 #include <iostream>
-#include <ctime>
 
 template <typename T>
 class List{
+    class Node;
 public:
     List();
     ~List();
 
+    class Iterator;
+
+    Iterator begin() {
+        return Iterator(head_);
+    }
+
+    Iterator end() {
+        return Iterator(nullptr);
+    }
+
+    class Iterator {
+     public:
+        Iterator() noexcept :
+            currentNode (head_) { }
+
+        Iterator(const Node* pNode) noexcept :
+            currentNode (pNode) { }
+
+        Iterator& operator=(Node* pNode) {
+            this->currentNode = pNode;
+            return *this;
+        }
+
+        // Prefix ++ overload
+        Iterator& operator++() {
+            if (currentNode)
+                currentNode = currentNode->next;
+            return *this;
+        }
+
+        // Postfix ++ overload
+        Iterator operator++(int) {
+            Iterator iterator = *this;
+            ++*this;
+            return iterator;
+        }
+
+        bool operator!=(const Iterator& iterator) {
+            return currentNode != iterator.currentNode;
+        }
+
+        T operator*() {
+            return currentNode->data;
+        }
+
+    private:
+        const Node* currentNode;
+    };
+
     void delete_list();
-    void add(T);
+    void push_back(T);
     void MergeSort();
 
 private:
     struct Node{
+        Node(T);
         T data;
         Node* next;
         Node* prev;
-        Node(T);
     };
 
     std::tuple<Node*, Node*> Merge(Node*, Node*,
