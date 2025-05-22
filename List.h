@@ -1,12 +1,48 @@
 #pragma once
 #include <iostream>
 #include <functional>
+#include <list>
+
+#include "Polynomial.h"
+#include "Monomial.h"
+
+
+template<typename T>
+struct is_pointer{
+    static const bool value = false;
+};
+
+template<typename T>
+struct is_pointer<T*>{
+    static const bool value = true;
+};
+
+template <bool, class T = void> 
+struct enable_if 
+{};
+
+template <class T> 
+struct enable_if<true, T> 
+{ 
+  typedef T type; 
+};
+
+template <bool, class T = void> 
+struct disable_if 
+{};
+
+template <class T> 
+struct disable_if<false, T> 
+{ 
+  typedef T type; 
+};
 
 template <typename T>
 class List{
     struct Node;
 public:
     List();
+    List(List&);
     ~List();
 
     class Iterator;
@@ -76,6 +112,16 @@ public:
     void MergeSort(const std::function <bool (T, T)>& lower = [](T a, T b) {return a < b;});
 
 private:
+    template<class U>
+    void free_helper( typename enable_if< is_pointer<U>::value >::type *dummy=0 ){
+        delete dummy;
+    }
+
+    template<class U>
+    void free_helper( typename disable_if< is_pointer<U>::value >::type *dummy=0 ){
+
+    }
+
     struct Node{
         Node(T);
         T data;
@@ -88,7 +134,13 @@ private:
     std::pair<Node*, Node*> Split(Node*);
     std::tuple<Node*, Node*> MergeSortHelper(Node*, Node*, const std::function <bool (T, T)>&);
 
-    Node* head_;
-    Node* last_;
+    static Node* head_;
+    static Node* last_;
     int size_ = 0;
 };
+
+template <typename T>
+/*static*/ typename List<T>::Node* List<T>::head_ = nullptr;
+
+template <typename T>
+/*static*/ typename List<T>::Node* List<T>::last_ = nullptr;

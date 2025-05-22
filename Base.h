@@ -1,5 +1,5 @@
 #pragma once
-#include <list>
+// #include <list>
 #include "Polynomial.h"
 #include "Filter.h"
 
