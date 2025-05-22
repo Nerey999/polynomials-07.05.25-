@@ -1,22 +1,17 @@
+#pragma once
 #include <iostream>
 
 template <typename T>
 class List{
-    class Node;
+    struct Node;
 public:
     List();
     ~List();
 
     class Iterator;
-
-    Iterator begin() {
-        return Iterator(head_);
-    }
-
-    Iterator end() {
-        return Iterator(nullptr);
-    }
-
+    Iterator begin();
+    Iterator end();
+    
     class Iterator {
      public:
         Iterator() noexcept :
@@ -30,14 +25,12 @@ public:
             return *this;
         }
 
-        // Prefix ++ overload
         Iterator& operator++() {
             if (currentNode)
                 currentNode = currentNode->next;
             return *this;
         }
 
-        // Postfix ++ overload
         Iterator operator++(int) {
             Iterator iterator = *this;
             ++*this;
@@ -58,6 +51,7 @@ public:
 
     void delete_list();
     void push_back(T);
+    void pop_front();
     void MergeSort();
 
 private:
@@ -72,7 +66,6 @@ private:
                                    Node*, Node*);
     std::pair<Node*, Node*> Split(Node*);
     std::tuple<Node*, Node*> MergeSortHelper(Node*, Node*);
-    void pop_front();
 
     Node* head_;
     Node* last_;

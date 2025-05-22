@@ -8,6 +8,16 @@ List<T>::~List() {
     this->delete_list();
 }
 
+template<typename T>
+List<T>::Iterator List<T>::begin() {
+    return Iterator(head_);
+}
+
+template<typename T>
+List<T>::Iterator List<T>::end() {
+    return Iterator(nullptr);
+}
+
 template <typename T>
 void List<T>::delete_list() {
     while (head_ != nullptr) {
@@ -116,6 +126,5 @@ int main() {
         std::cout << *iterator << ' ';
     }
     list.MergeSort();
-    1 + 1;
     return 0;
 }
