@@ -3,6 +3,8 @@
 #include "Polynomial.h"
 #include "Filter.h"
 
+#include "List.h"
+
 class Base {
 public:
     void add(std::string);
@@ -18,6 +20,6 @@ public:
     bool equal_polynomials(int, int);
 private:
     Filter filter;
-    std::list<Polynomial> polynomials;
+    List<Polynomial> polynomials;
 };
 

@@ -60,13 +60,19 @@ public:
             return currentNode->data;
         }
 
+        friend Iterator List<T>::erase(Iterator);
+        friend Iterator List<T>::rerase(Iterator);
     private:
         const Node* currentNode;
     };
 
+    int size();
     void clear();
     void push_back(T);
+    Iterator erase(Iterator);
+    Iterator rerase(Iterator);
     void pop_front();
+    void pop_back();
     void MergeSort(const std::function <bool (T, T)>& lower = [](T a, T b) {return a < b;});
 
 private:

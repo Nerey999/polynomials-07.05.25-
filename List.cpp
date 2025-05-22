@@ -29,6 +29,11 @@ typename List<T>::Iterator List<T>::rend() {
 }
 
 template <typename T>
+int List<T>::size() {
+    return size_;
+}
+
+template <typename T>
 void List<T>::clear() {
     while (head_ != nullptr) {
         this->pop_front();
@@ -111,12 +116,58 @@ std::tuple<typename List<T>::Node*, typename List<T>::Node*> List<T>::MergeSortH
 }
 
 template <typename T>
+typename List<T>::Iterator List<T>::erase(Iterator it) {
+    if (it.currentNode == head_) {
+        pop_front();
+        return Iterator(head_);
+    }
+    if (it.currentNode == last_) {
+        pop_back();
+        return Iterator(nullptr);
+    }
+    const Node* tmp = it.currentNode;
+    it.currentNode->prev->next = it.currentNode->next;
+    it.currentNode->next->prev = it.currentNode->prev;
+    Iterator for_return = Iterator(it.currentNode->next);
+    delete tmp;
+    return for_return;
+}
+
+template <typename T>
+typename List<T>::Iterator List<T>::rerase(Iterator it) {
+    if (it.currentNode == head_) {
+        pop_front();
+        return Iterator(nullptr);
+    }
+    if (it.currentNode == last_) {
+        pop_back();
+        return Iterator(last_);
+    }
+    const Node* tmp = it.currentNode;
+    it.currentNode->prev->next = it.currentNode->next;
+    it.currentNode->next->prev = it.currentNode->prev;
+    Iterator for_return = Iterator(it.currentNode->prev);
+    delete tmp;
+    return for_return;
+}
+
+template <typename T>
 void List<T>::pop_front() {
     Node* tmp = head_;
     if (head_->next != nullptr) {
         head_->next->prev = nullptr;
     }
     head_ = head_->next;
+    delete tmp;
+}
+
+template <typename T>
+void List<T>::pop_back() {
+    Node* tmp = last_;
+    if (last_->prev != nullptr) {
+        last_->prev->next = nullptr;
+    }
+    last_ = last_->prev;
     delete tmp;
 }
 
@@ -137,9 +188,14 @@ void List<T>::pop_front() {
 //         std::cout << *iterator << ' ';
 //     } std::cout << '\n';
 //     list.MergeSort([](int a, int b) {return a > b;});
-//     for (List<int>::Iterator iterator = list.rbegin();
-//             iterator != list.rend(); iterator--) {
-//         std::cout << *iterator << ' ';
+//     for (List<int>::Iterator iterator = list.begin();
+//             iterator != list.end();) {
+//         if (*iterator == 3) {
+//             iterator = list.erase(iterator);
+//         } else {
+//             iterator++;
+//         }
+//         // std::cout << *iterator << ' ';
 //     } std::cout << '\n';
 //     for (auto x : list) {
 //         std::cout << x << ' ';
