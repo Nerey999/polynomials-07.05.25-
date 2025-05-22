@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <functional>
 
 template <typename T>
 class List{
@@ -39,6 +40,18 @@ public:
             return iterator;
         }
 
+        Iterator& operator--() {
+            if (currentNode)
+                currentNode = currentNode->prev;
+            return *this;
+        }
+
+        Iterator operator--(int) {
+            Iterator iterator = *this;
+            --*this;
+            return iterator;
+        }
+
         bool operator!=(const Iterator& iterator) {
             return currentNode != iterator.currentNode;
         }
@@ -54,7 +67,7 @@ public:
     void clear();
     void push_back(T);
     void pop_front();
-    void MergeSort();
+    void MergeSort(const std::function <bool (T, T)>& lower = [](T a, T b) {return a < b;});
 
 private:
     struct Node{
@@ -65,9 +78,9 @@ private:
     };
 
     std::tuple<Node*, Node*> Merge(Node*, Node*,
-                                   Node*, Node*);
+                                   Node*, Node*, const std::function <bool (T, T)>&);
     std::pair<Node*, Node*> Split(Node*);
-    std::tuple<Node*, Node*> MergeSortHelper(Node*, Node*);
+    std::tuple<Node*, Node*> MergeSortHelper(Node*, Node*, const std::function <bool (T, T)>&);
 
     Node* head_;
     Node* last_;
