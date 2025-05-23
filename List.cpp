@@ -85,13 +85,13 @@ std::tuple<typename List<T>::Node*, typename List<T>::Node*> List<T>::Merge(Node
     if (!right_start) return {left_start, left_end};
 
     if (lower(left_start->data, right_start->data)) {
-        std::tuple grs = Merge(left_start->next, left_end, right_start, right_end, lower);
+        std::tuple<typename List<T>::Node*, typename List<T>::Node*> grs = Merge(left_start->next, left_end, right_start, right_end, lower);
         left_start->next = std::get<0>(grs);
         left_start->next->prev = left_start;
         left_start->prev = nullptr;
         return {left_start, std::get<1>(grs)};
     } else {
-        std::tuple grs = Merge(left_start, left_end, right_start->next, right_end, lower);
+        std::tuple<typename List<T>::Node*, typename List<T>::Node*> grs = Merge(left_start, left_end, right_start->next, right_end, lower);
         right_start->next = std::get<0>(grs);
         right_start->next->prev = right_start;
         right_start->prev = nullptr;
@@ -144,6 +144,7 @@ typename List<T>::Iterator List<T>::erase(Iterator it) {
     it.currentNode->prev->next = it.currentNode->next;
     it.currentNode->next->prev = it.currentNode->prev;
     Iterator for_return = Iterator(it.currentNode->next);
+    size_--;
     delete tmp;
     return for_return;
 }
@@ -174,6 +175,7 @@ void List<T>::pop_front() {
         head_->next->prev = nullptr;
     }
     head_ = head_->next;
+    size_--;
     free_helper<T>(tmp);
 }
 
@@ -184,6 +186,7 @@ void List<T>::pop_back() {
         last_->prev->next = nullptr;
     }
     last_ = last_->prev;
+    size_--;
     delete tmp;
 }
 

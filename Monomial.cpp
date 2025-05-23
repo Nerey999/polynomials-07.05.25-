@@ -39,7 +39,9 @@ Monomial::Monomial(std::string monomial) {
     }
 
     // powers vector with normal sort {power, char}
-    for (auto [ch, power] : powers_map) {
+    for (auto element : powers_map) {
+        char ch = element.first;
+        int power = element.second;
         powers_with_sort.push_back({power, ch});
     }
     std::sort(powers_with_sort.begin(), powers_with_sort.end(), 
@@ -58,7 +60,9 @@ std::string Monomial::get_monomial() const{
     }
     
     
-    for (auto [power, ch] : powers_with_sort) {
+    for (auto element : powers_with_sort) {
+        int power = element.first;
+        char ch = element.second;
         if (power == 1) monomial += ch;
         else {
             monomial += ch;
@@ -130,9 +134,9 @@ double Monomial::get_double_coefficient() const {
 
 
 double Monomial::value_in(std::map<char, double> values) const {
-    double answer = 0;
+    double answer = 1;
     for (auto x : powers_with_sort) {
-        answer += std::pow(values[x.second], x.first);
+        answer *= std::pow(values[x.second], x.first);
     }
     if (powers_with_sort.size() == 0) answer = 1;
     return coefficient * answer;
@@ -142,10 +146,15 @@ Monomial Monomial::derivative_one(char symbol) const {
     if (powers_with_sort.size() == 0) {
         return Monomial("0");
     }
+    if (powers[symbol-'a'] == 0) {
+        return Monomial("0");
+    }
     std::string new_monomial = "";
     new_monomial += std::to_string(this->get_double_coefficient() 
                     * std::max(1, powers[symbol-'a']));
-    for (auto [power, ch] : powers_with_sort) {
+    for (auto element : powers_with_sort) {
+        int power = element.first;
+        char ch = element.second;
         new_monomial += ch;
         new_monomial += '^';
         if (ch == symbol) {

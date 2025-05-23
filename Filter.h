@@ -5,7 +5,7 @@ class Filter {
  public:
     std::string check(std::string);
  private:
-    int inx;
+    int inx=-1;
     std::string current;
     void s1();
     void s2();

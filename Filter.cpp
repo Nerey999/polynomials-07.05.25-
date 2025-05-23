@@ -7,7 +7,7 @@ std::string Filter::check(std::string for_check) {
         s1();
     } catch (const char* error_message) {
         std::string new_error_message = error_message;
-        new_error_message += " в позиции ";
+        new_error_message += " in position ";
         new_error_message += std::to_string(inx);
         return new_error_message.c_str();
     }
@@ -15,7 +15,7 @@ std::string Filter::check(std::string for_check) {
 }
 
 void Filter::s1() {
-    if (inx >= current.size()) throw "Вы ошиблись в первом символе";
+    if (inx >= current.size()) throw "You made a mistake in the first character.";
     inx++;
     if (current[inx-1] == ' ') {
         s1();
@@ -33,11 +33,11 @@ void Filter::s1() {
         s2();
         return;
     }
-    throw "Вы ошиблись в первом символе";
+    throw "You made a mistake in the first character.";
 }
 
 void Filter::s2() {
-    if (inx >= current.size()) throw "Вы не ввели одночлен после знака";
+    if (inx >= current.size()) throw "You didn't enter a monomial after the sign.";
     inx++;
     if (current[inx-1] == ' ') {
         s2();
@@ -51,7 +51,7 @@ void Filter::s2() {
         s7();
         return;
     }
-    throw "Вы не ввели одночлен после знака";
+    throw "You didn't enter a monomial after the sign.";
 }
 
 void Filter::s3() {
@@ -73,11 +73,11 @@ void Filter::s3() {
         s3();
         return;
     }
-    throw "Вы ошиблись в одночлене";
+    throw "You made a mistake in the monomial";
 }
 
 void Filter::s4() {
-    if (inx >= current.size()) throw "Вы ошиблись после знака степени";
+    if (inx >= current.size()) throw "You made a mistake after the degree sign";
     inx++;
     if (current[inx-1] == ' ') {
         s4();
@@ -87,7 +87,7 @@ void Filter::s4() {
         s5();
         return;
     }
-    throw "Вы ошиблись после знака степени";
+    throw "You made a mistake after the degree sign";
 }
 
 void Filter::s5() {
@@ -109,7 +109,7 @@ void Filter::s5() {
         s2();
         return;
     }
-    throw "Вы ошиблись в показателе степени";
+    throw "You made a mistake in the degree indicator.";
 }
 
 void Filter::s6() {
@@ -127,7 +127,7 @@ void Filter::s6() {
         s2();
         return;
     }
-    throw "Пробел недопустим";
+    throw "Spaces are not allowed";
 }
 
 void Filter::s7() {
@@ -153,17 +153,17 @@ void Filter::s7() {
         s2();
         return;
     }
-    throw "Вы ошиблись в коэфиценте";
+    throw "You made a mistake in the coefficient";
 }
 
 void Filter::s8() {
-    if (inx == current.size()) throw "Вы ошиблись после запятой";
+    if (inx == current.size()) throw "You made a mistake after the comma";
     inx++;
     if (isdigit(current[inx-1])) {
         s9();
         return;
     }
-    throw "Вы ошиблись после запятой";
+    throw "You made a mistake after the comma";
 }
 
 void Filter::s9() {
@@ -181,5 +181,5 @@ void Filter::s9() {
         s2();
         return;
     }
-    throw "Вы ошиблись в вещественном коэфиценте";
+    throw "You made a mistake in the material coefficient.";
 }
